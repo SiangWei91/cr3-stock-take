@@ -1,11 +1,11 @@
-const CACHE_NAME = 'barcode-scanner-cache-v4';
+const CACHE_NAME = 'barcode-scanner-cache-v1';
 const urlsToCache = [
-  '/barcode-scanner-pwa/',
-  '/barcode-scanner-pwa/index.html',
-  '/barcode-scanner-pwa/app.js',
-  '/barcode-scanner-pwa/manifest.json',
-  '/barcode-scanner-pwa/icons/icon-192x192.png',
-  '/barcode-scanner-pwa/icons/icon-512x512.png'
+  '/CR3-Stock-Take/',
+  '/CR3-Stock-Take/index.html',
+  '/CR3-Stock-Take/app.js',
+  '/CR3-Stock-Take/manifest.json',
+  '/CR3-Stock-Take/icons/icon-192x192.png',
+  '/CR3-Stock-Take/icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', function(event) {
