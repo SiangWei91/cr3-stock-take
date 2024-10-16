@@ -224,14 +224,9 @@ window.addEventListener('load', () => {
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('https://siangwei91.github.io/CR3-Stock-Take/service-worker.js')
-    .then(reg => {
-      console.log('Service worker registered successfully', reg);
-      reg.update();
-    })
-    .catch(error => {
-      console.error('Service worker registration failed:', error);
-    });
+  navigator.serviceWorker.register('/CR3-Stock-Take/service-worker.js').then(reg => {
+    reg.update();
+  });
 }
 
 function checkForUpdates() {
