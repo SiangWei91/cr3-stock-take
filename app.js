@@ -50,6 +50,17 @@ function initScanner() {
     `;
   });
 
+  // Add focus event listeners to all quantity inputs
+  const quantityInputs = document.querySelectorAll('input[type="number"]');
+  quantityInputs.forEach(input => {
+    input.addEventListener('focus', function() {
+      setTimeout(() => {
+        barcodeInput.focus();
+        console.log('Auto-returned focus to barcode input');
+      }, 5000);
+    });
+  });
+
   function handleBarcodeScan(barcode) {
     console.log('Scanned barcode:', barcode);
     const product = productList.find(p => p.barcode === barcode);
@@ -67,7 +78,6 @@ function initScanner() {
     }
     barcodeInput.value = ''; // Clear the input for the next scan
   }
-
   // Listen for the 'input' event on the barcode input field
   barcodeInput.addEventListener('input', function() {
     const barcode = this.value.trim();
@@ -220,12 +230,14 @@ function sendToGoogleScript(data, sheetName) {
     showToast('保存失误 Error submitting data. Please try again.');
   });
 }
+
 // Update the date and time every second
 setInterval(updateDateTimeDisplay, 1000);
 
 window.addEventListener('load', () => {
-  initScanner();
-  updateDateTimeDisplay();
+    initScanner();
+    updateDateTimeDisplay();
+    preventWebRefresh();
 });
 
 if ('serviceWorker' in navigator) {
