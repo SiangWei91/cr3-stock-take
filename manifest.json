@@ -2,7 +2,7 @@
   "name": "Barcode Scanner",
   "short_name": "CR3 Scanner",
   "description": "A simple PWA barcode scanner app",
-  "start_url": "/CR3-stock-take/index.html",
+  "start_url": "/cr3-stock-take/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
