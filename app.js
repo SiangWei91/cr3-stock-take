@@ -259,7 +259,7 @@ window.addEventListener('load', () => {
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/CR3-Stock-Take/service-worker.js').then(reg => {
+  navigator.serviceWorker.register('/cr3-stock-take/service-worker.js').then(reg => {
     reg.update();
   });
 }
