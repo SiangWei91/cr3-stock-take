@@ -299,26 +299,3 @@ function preventWebRefresh() {
         }
     }, { passive: false });
 }
-
-// Define the start URL based on your manifest
-const startUrl = "/CR3-Stock-Take/index.html";
-
-// Listen for errors on the page for resources like images, scripts, and links
-window.addEventListener("error", function (event) {
-  if (event.target.tagName === "LINK" || event.target.tagName === "IMG" || event.target.tagName === "SCRIPT") {
-    console.error("Failed to load resource:", event.target.src || event.target.href);
-  }
-}, true);
-
-// Check if the start URL is accessible
-window.addEventListener("load", function () {
-  fetch(startUrl)
-    .then(response => {
-      if (!response.ok) {
-        console.error(`Start URL not found: ${startUrl} - ${response.statusText}`);
-      }
-    })
-    .catch(error => {
-      console.error(`Error fetching start URL (${startUrl}):`, error.message);
-    });
-});
