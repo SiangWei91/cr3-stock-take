@@ -30,8 +30,8 @@ const productList = [
   { barcode: "40139", itemCode: "40139", name: "特大饼 FISH CAKE (XL) - IMPROVED", packingSize: "20's" },
   { barcode: "40366", itemCode: "40366", name: "潮洲鱼丸 FISH BALL (TEOCHEW)", packingSize: "25's" },
   { barcode: "40132", itemCode: "40132", name: "炸鱼丸 FRIED FISH BALL", packingSize: "25's" },
-  { barcode: "40334", itemCode: "61001", name: "OCK 炸鱼丸 OCK FRIED FISH BALL", packingSize: "50's" },
-  { barcode: "40135", itemCode: "61000", name: "顶级炸丸 PREMIUM FRIED FISH BALL", packingSize: "10's" }
+  { barcode: "61001", itemCode: "61001", name: "OCK 炸鱼丸 OCK FRIED FISH BALL", packingSize: "50's" },
+  { barcode: "61000", itemCode: "61000", name: "顶级炸丸 PREMIUM FRIED FISH BALL", packingSize: "10's" }
 ];
 
 function initializeProducts() {
