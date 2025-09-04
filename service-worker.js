@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cr3-stock-take-cache-v1.2';
+const CACHE_NAME = 'cr3-stock-take-cache-v1.3';
 const urlsToCache = [
     '/cr3-stock-take/',
     '/cr3-stock-take/index.html',
@@ -39,5 +39,6 @@ self.addEventListener('activate', function(event) {
     })
   );
 });
+
 
 
