@@ -21,6 +21,7 @@ const productList = [
   { barcode: "40305", itemCode: "40305", name: "大鱼丸 COOKED FISH BALL (L)", packingSize: "400g" },
   { barcode: "40311", itemCode: "40311", name: "中鱼丸 COOKED FISH BALL (M)", packingSize: "1kg" },
   { barcode: "40315", itemCode: "40315", name: "中熟鱼丸 COOKED FISH BALL (M)", packingSize: "400g" },
+  { barcode: "40315", itemCode: "40330", name: "SP 中熟鱼丸 SP COOKED FISH BALL (M)", packingSize: "400g" },
   { barcode: "40320", itemCode: "40320", name: "小鱼丸 COOKED FISH BALL (S)", packingSize: "1kg" },
   { barcode: "40332", itemCode: "40332", name: "熟鱼丸 COOKED FISH BALL", packingSize: "200g" },
   { barcode: "40333", itemCode: "40333", name: "熟鱼丸 FISH BALL", packingSize: "50's" },
