@@ -1,67 +1,113 @@
-// Updated product list
-const productList = [
-  { barcode: "40101", itemCode: "40101", name: "大鱼饼 FISH CAKE (L)", packingSize: "20's" },
-  { barcode: "40102", itemCode: "40102", name: "中鱼饼 FISH CAKE (M)", packingSize: "30's" },
-  { barcode: "40104", itemCode: "40104", name: "新大饼 FISH CAKE (L) - IMPROVED", packingSize: "20's" },
-  { barcode: "40105", itemCode: "40105", name: "金条 GOLDBAR FRIED FISH CAKE", packingSize: "10's" },
-  { barcode: "40108", itemCode: "40108", name: "切果片 SLICED FISH CAKE", packingSize: "1kg" },
-  { barcode: "40110", itemCode: "40110", name: "圆饼 ROUND FISH CAKE", packingSize: "30's" },
-  { barcode: "40113", itemCode: "40113", name: "鲍鱼饼 ABALONE FISH CAKE", packingSize: "30's" },
-  { barcode: "40148", itemCode: "40148", name: "白鲍鱼饼 WHITE FISH CAKE - ABALONE", packingSize: "30's" },
-  { barcode: "40114", itemCode: "40114", name: "扁大粿 FRIED LARGE FISH CAKE", packingSize: "20's" },
-  { barcode: "40117", itemCode: "40117", name: "黑大饼 FISH CAKE (L) - BLACK", packingSize: "20's" },
-  { barcode: "40120", itemCode: "40120", name: "大西刀 SAI DOU FISH CAKE (L)", packingSize: "10's" },
-  { barcode: "40121", itemCode: "40121", name: "小西刀 SAI DOU FISH CAKE (S)", packingSize: "10's" },
-  { barcode: "40123", itemCode: "40123", name: "手工菜饼 HANDMADE VEGETABLE FISHCAKE", packingSize: "10's" },
-  { barcode: "40129", itemCode: "40129", name: "扁大粿 FRIED LARGE FISH CAKE", packingSize: "10's" },
-  { barcode: "40130", itemCode: "40130", name: "炸鱼丸 FRIED FISH BALL", packingSize: "50's" },
-  { barcode: "40133", itemCode: "40133", name: "西刀炸丸 SAI DOU FRIED FISH BALL", packingSize: "30's" },
-  { barcode: "40140", itemCode: "40140", name: "真空白粿 WHITE FISH CAKE", packingSize: "5's" },
-  { barcode: "40301", itemCode: "40301", name: "大鱼丸 COOKED FISH BALL (L)", packingSize: "1kg" },
-  { barcode: "40305", itemCode: "40305", name: "大鱼丸 COOKED FISH BALL (L)", packingSize: "400g" },
-  { barcode: "40311", itemCode: "40311", name: "中鱼丸 COOKED FISH BALL (M)", packingSize: "1kg" },
-  { barcode: "40315", itemCode: "40315", name: "中熟鱼丸 COOKED FISH BALL (M)", packingSize: "400g" },
-  { barcode: "40330", itemCode: "40330", name: "SP 中熟鱼丸 SP COOKED FISH BALL (M)", packingSize: "400g" },
-  { barcode: "40320", itemCode: "40320", name: "小鱼丸 COOKED FISH BALL (S)", packingSize: "1kg" },
-  { barcode: "40332", itemCode: "40332", name: "熟鱼丸 COOKED FISH BALL", packingSize: "200g" },
-  { barcode: "40333", itemCode: "40333", name: "熟鱼丸 FISH BALL", packingSize: "50's" },
-  { barcode: "40700", itemCode: "40700", name: "(VP)中鱼饼 FRIED FISH CAKE (M)", packingSize: "30's" },
-  { barcode: "40706", itemCode: "40706", name: "(VP)金条 GOLDBAR FRIED FISH CAKE", packingSize: "10's" },
-  { barcode: "40707", itemCode: "40707", name: "(VP)炸鱼丸 FRIED FISH BALL", packingSize: "50's" },
-  { barcode: "40139", itemCode: "40139", name: "特大饼 FISH CAKE (XL) - IMPROVED", packingSize: "20's" },
-  { barcode: "40366", itemCode: "40366", name: "潮洲鱼丸 FISH BALL (TEOCHEW)", packingSize: "25's" },
-  { barcode: "40132", itemCode: "40132", name: "炸鱼丸 FRIED FISH BALL", packingSize: "25's" },
-  { barcode: "61001", itemCode: "61001", name: "OCK 炸鱼丸 OCK FRIED FISH BALL", packingSize: "50's" },
-  { barcode: "61000", itemCode: "61000", name: "顶级炸丸 PREMIUM FRIED FISH BALL", packingSize: "10's" },
-  { barcode: "40807", itemCode: "40807", name: "(LG) 大果鱼饼 900g (10's) BIG FISH CAKE", packingSize: "10's" },
-  { barcode: "40808", itemCode: "40808", name: "(LG) 炸鱼丸 625g (25's) FRIED FISH BALL", packingSize: "25's" },
-  { barcode: "40809", itemCode: "40809", name: "(LG) 切鱼饼 500g CUT FISH CAKE", packingSize: "500g" }
-];
+// ============================================================================
+// CR3 Stock Take PWA
+// Product list & staff list are sourced from Supabase (table app_product_list_items / app_staff_lists).
+// They are cached in localStorage and only re-fetched when the user clicks "更新列表 Update List".
+// ============================================================================
 
-function initializeProducts() {
-    // Store the master product list in localStorage when online
-    if (navigator.onLine) {
-        localStorage.setItem('masterProductList', JSON.stringify(productList));
-    }
-    
-    // Always use the stored product list if available
-    const storedProducts = localStorage.getItem('masterProductList');
-    if (storedProducts) {
-        return JSON.parse(storedProducts);
-    }
-    return productList; // Fallback to default list
+const SUPABASE_URL = 'https://jbpvqlvlokvqpkulisxi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpicHZxbHZsb2t2cXBrdWxpc3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwNTE3NzYsImV4cCI6MjA3NTYyNzc3Nn0.cwCoHFCy3K_HdTIIk_jJUCgMXIdub2HbnxqTETBKans';
+const LIST_KEY = 'cr3-stock-take';
+const STORAGE_PRODUCTS = 'masterProductList';
+const STORAGE_STAFF = 'masterStaffList';
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+async function fetchProductsFromDB() {
+  const { data, error } = await supabaseClient
+    .from('app_product_list_items')
+    .select('barcode, item_code, name, packing_size')
+    .eq('list_key', LIST_KEY)
+    .order('sort_order');
+  if (error) throw error;
+  return data.map(r => ({
+    barcode: r.barcode,
+    itemCode: r.item_code,
+    name: r.name,
+    packingSize: r.packing_size || ''
+  }));
+}
+
+async function fetchStaffFromDB() {
+  const { data, error } = await supabaseClient
+    .from('app_staff_lists')
+    .select('name')
+    .eq('list_key', LIST_KEY)
+    .order('sort_order');
+  if (error) throw error;
+  return data.map(r => r.name);
+}
+
+async function ensureDataLoaded() {
+  const cachedProducts = localStorage.getItem(STORAGE_PRODUCTS);
+  const cachedStaff = localStorage.getItem(STORAGE_STAFF);
+  if (cachedProducts && cachedStaff) return;
+
+  if (!navigator.onLine) {
+    showToast('需要联网下载列表 Need internet to download list');
+    return;
+  }
+
+  try {
+    const [products, staff] = await Promise.all([fetchProductsFromDB(), fetchStaffFromDB()]);
+    localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+    localStorage.setItem(STORAGE_STAFF, JSON.stringify(staff));
+  } catch (e) {
+    console.error('Failed to load lists from DB:', e);
+    showToast('下载失败 Failed to download lists');
+  }
+}
+
+function getProducts() {
+  const cached = localStorage.getItem(STORAGE_PRODUCTS);
+  return cached ? JSON.parse(cached) : [];
+}
+
+function getStaff() {
+  const cached = localStorage.getItem(STORAGE_STAFF);
+  return cached ? JSON.parse(cached) : [];
+}
+
+async function updateListFromDB() {
+  if (!navigator.onLine) {
+    showToast('离线状态 Cannot update while offline');
+    return;
+  }
+  if (!confirm('确认从数据库更新列表? Reload list from database?')) return;
+  showLoadingOverlay();
+  try {
+    const [products, staff] = await Promise.all([fetchProductsFromDB(), fetchStaffFromDB()]);
+    localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
+    localStorage.setItem(STORAGE_STAFF, JSON.stringify(staff));
+    hideLoadingOverlay();
+    showToast('列表已更新 List updated');
+    setTimeout(() => location.reload(), 800);
+  } catch (e) {
+    hideLoadingOverlay();
+    console.error('Update failed:', e);
+    showToast('更新失败 Update failed');
+  }
+}
+
+function populateStaffDropdown() {
+  const select = document.getElementById('stockCheckBy');
+  const staff = getStaff();
+  staff.forEach(name => {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name === 'New Worker' ? '*新员工 New Worker' : name;
+    select.appendChild(option);
+  });
 }
 
 function initScanner() {
   const barcodeInput = document.getElementById('barcodeInput');
   const stockCheckBy = document.getElementById('stockCheckBy');
   const productTable = document.getElementById('productTable');
-  
-  const currentProducts = initializeProducts(); // You have this line correct
 
-  // Change this part - use currentProducts instead of productList
+  const currentProducts = getProducts();
+
   const tbody = productTable.getElementsByTagName('tbody')[0];
-  currentProducts.forEach(product => {  // Changed from productList to currentProducts
+  currentProducts.forEach(product => {
     const row = tbody.insertRow();
     row.innerHTML = `
       <td>${product.name}</td>
@@ -70,7 +116,6 @@ function initScanner() {
     `;
   });
 
-  // Add focus event listeners to all quantity inputs
   const quantityInputs = document.querySelectorAll('input[type="number"]');
   quantityInputs.forEach(input => {
     input.addEventListener('focus', function() {
@@ -83,7 +128,7 @@ function initScanner() {
 
   function handleBarcodeScan(barcode) {
     console.log('Scanned barcode:', barcode);
-    const product = currentProducts.find(p => p.barcode === barcode); // Changed from productList to currentProducts
+    const product = currentProducts.find(p => p.barcode === barcode);
     if (product) {
       console.log('Found product:', product);
       const quantityInput = document.querySelector(`input[data-barcode="${barcode}"]`);
@@ -98,8 +143,7 @@ function initScanner() {
     }
     barcodeInput.value = '';
   }
-  
-  // Listen for the 'input' event on the barcode input field
+
   barcodeInput.addEventListener('input', function() {
     const barcode = this.value.trim();
     if (barcode) {
@@ -107,45 +151,41 @@ function initScanner() {
     }
   });
 
-  // Prevent the dropdown from interfering with scanning
   stockCheckBy.addEventListener('focus', function() {
-    barcodeInput.blur(); // Remove focus from barcode input when dropdown is focused
+    barcodeInput.blur();
   });
 
   stockCheckBy.addEventListener('blur', function() {
-    // Small delay to allow for dropdown selection before refocusing
     setTimeout(() => barcodeInput.focus(), 100);
   });
 
-  // Add click event listener to the table to refocus on barcode input
   productTable.addEventListener('click', function(event) {
     if (event.target.tagName !== 'INPUT') {
       barcodeInput.focus();
     }
   });
 
-  // Ensure barcode input is focused when the page loads
   barcodeInput.focus();
 }
 
 function submitQuantities(sheetName) {
-  const currentProducts = initializeProducts(); // Add this line
+  const currentProducts = getProducts();
   const quantities = [];
   const inputs = document.querySelectorAll('input[type="number"]');
   const currentDate = formatDate(new Date());
   const currentTime = formatTime(new Date());
   const stockCheckBy = document.getElementById('stockCheckBy').value;
-  
+
   if (!stockCheckBy) {
     showToast('Please select who is performing the stock check');
     return;
   }
-  
+
   inputs.forEach(input => {
     const barcode = input.getAttribute('data-barcode');
     const quantity = input.value.trim();
     if (quantity !== '') {
-      const product = currentProducts.find(p => p.barcode === barcode); // Change this line from productList to currentProducts
+      const product = currentProducts.find(p => p.barcode === barcode);
       if (product) {
         quantities.push({
           Date: currentDate,
@@ -159,7 +199,7 @@ function submitQuantities(sheetName) {
       }
     }
   });
-  
+
   if (quantities.length > 0) {
     showLoadingOverlay();
     sendToGoogleScript(quantities, sheetName);
@@ -175,9 +215,9 @@ function refreshApp() {
   inputs.forEach(input => {
     input.value = '';
   });
-  document.getElementById('stockCheckBy').value = ''; // Reset the dropdown
+  document.getElementById('stockCheckBy').value = '';
   console.log('App refreshed');
-  barcodeInput.focus(); // Refocus on the barcode input after refresh
+  barcodeInput.focus();
 }
 
 function formatDate(date) {
@@ -192,7 +232,7 @@ function formatTime(date) {
   const minutes = date.getMinutes().toString().padStart(2, '0');
   const ampm = hours >= 12 ? 'PM' : 'AM';
   hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
+  hours = hours ? hours : 12;
   return `${hours}:${minutes} ${ampm}`;
 }
 
@@ -200,11 +240,11 @@ function updateDateTimeDisplay() {
   const dateDisplay = document.getElementById('currentDate');
   const timeDisplay = document.getElementById('currentTime');
   const now = new Date();
-  
+
   if (dateDisplay) {
     dateDisplay.textContent = formatDate(now);
   }
-  
+
   if (timeDisplay) {
     timeDisplay.textContent = formatTime(now);
   }
@@ -227,7 +267,7 @@ function showToast(message) {
 
 function sendToGoogleScript(data, sheetName) {
   const url = 'https://script.google.com/macros/s/AKfycbxtkp0U6W1YL9ixCfFERGAkgVNnhatwhGoBkLSWBfg0BhtvFlru6tz2Lc8IpZTIQHLPzA/exec';
-  
+
   const payload = {
     data: data,
     sheetName: sheetName
@@ -253,13 +293,14 @@ function sendToGoogleScript(data, sheetName) {
   });
 }
 
-// Update the date and time every second
 setInterval(updateDateTimeDisplay, 1000);
 
-window.addEventListener('load', () => {
-    initScanner();
-    updateDateTimeDisplay();
-    preventWebRefresh();
+window.addEventListener('load', async () => {
+  await ensureDataLoaded();
+  populateStaffDropdown();
+  initScanner();
+  updateDateTimeDisplay();
+  preventWebRefresh();
 });
 
 if ('serviceWorker' in navigator) {
@@ -282,24 +323,19 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-window.addEventListener('online', () => {
-    localStorage.setItem('masterProductList', JSON.stringify(productList));
-});
-
 function preventWebRefresh() {
-    let startY = 0;
-    
-    document.addEventListener('touchstart', function(e) {
-        startY = e.touches[0].pageY;
-    }, { passive: true });
-    
-    document.addEventListener('touchmove', function(e) {
-        const y = e.touches[0].pageY;
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        
-        // Only prevent default when we're at the top of the page and trying to scroll up
-        if (scrollTop === 0 && y > startY) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+  let startY = 0;
+
+  document.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].pageY;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    const y = e.touches[0].pageY;
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+    if (scrollTop === 0 && y > startY) {
+      e.preventDefault();
+    }
+  }, { passive: false });
 }
