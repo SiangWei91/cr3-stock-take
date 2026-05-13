@@ -279,7 +279,7 @@ button[onclick="refreshApp"]:hover {
   </head>
   <body>
         <div class="header-container">
-      <h1>CR3 Stock Take</h1>
+      <h1 id="appTitle" onclick="onTitleClick()" style="cursor: pointer;" title="点击标题更新列表 Click title to update list">CR3 Stock Take</h1>
       <div class="date-time-container">
         <div id="currentDate"></div>
         <div id="currentTime"></div>
@@ -312,7 +312,6 @@ button[onclick="refreshApp"]:hover {
 
     <button onclick="refreshApp()">刷新 Refresh</button>
     <button onclick="submitQuantities('CR3')">保存 Submit</button>
-    <button onclick="updateListFromDB()" style="background-color: #f39c12;">🔄 更新列表 Update List</button>
     <div id="loadingOverlay">
       <div class="spinner"></div>
     </div>

@@ -67,7 +67,19 @@ function getStaff() {
   return cached ? JSON.parse(cached) : [];
 }
 
-async function updateListFromDB() {
+function hasEnteredQuantities() {
+  const inputs = document.querySelectorAll('input[type="number"]');
+  for (const input of inputs) {
+    if (input.value.trim() !== '') return true;
+  }
+  return false;
+}
+
+async function onTitleClick() {
+  if (hasEnteredQuantities()) {
+    // Silently ignore — user has unsaved quantities
+    return;
+  }
   if (!navigator.onLine) {
     showToast('离线状态 Cannot update while offline');
     return;
