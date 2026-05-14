@@ -7,8 +7,8 @@
 const SUPABASE_URL = 'https://jbpvqlvlokvqpkulisxi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpicHZxbHZsb2t2cXBrdWxpc3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwNTE3NzYsImV4cCI6MjA3NTYyNzc3Nn0.cwCoHFCy3K_HdTIIk_jJUCgMXIdub2HbnxqTETBKans';
 const LIST_KEY = 'cr3-stock-take';
-const STORAGE_PRODUCTS = 'masterProductList';
-const STORAGE_STAFF = 'masterStaffList';
+const STORAGE_PRODUCTS = 'masterProductList_cr3';
+const STORAGE_STAFF = 'masterStaffList_cr3';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
